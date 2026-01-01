@@ -88,7 +88,9 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
 
         if (cData && datesRefs.current.main.current && datesRefs.current.sub.current) {
             datesRefs.current.main.current.innerText = `${cData.y} ${String(cData.m + 1).padStart(2, '0')} ${String(cData.d).padStart(2, '0')}`;
-            datesRefs.current.sub.current.innerText = `${SLOT_HOURS[cData.slot]} . ${cData.slot}`;
+
+            const slotInfo = `${SLOT_HOURS[cData.slot]} . ${SLOT_NAMES[cData.slot]}`;
+            datesRefs.current.sub.current.innerText = cData.note ? `${cData.note.title.toUpperCase()} [${slotInfo}]` : slotInfo;
 
             // Callback for parent - throttled by ID change
             if (onDateChange && cData.id !== lastEmittedId.current) {
@@ -193,14 +195,28 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
                     {data.map((d) => (
                         <div
                             key={d.id}
-                            className={`node ${d.isMajor ? 'major' : ''}`}
+                            className={`node ${d.isMajor ? 'major' : ''} ${d.note ? 'has-note' : ''}`}
                             style={{ width: 'var(--node-width, 4px)', height: '100%' } as React.CSSProperties}
                         >
+                            {d.note && (
+                                <div className="note-anchor">
+                                    <div className="note-card">
+                                        <div className="note-title">{d.note.title}</div>
+                                        <div className="note-preview">FILE_ID_{d.id}</div>
+                                    </div>
+                                    <div
+                                        className="note-bar"
+                                        style={{ height: `${(d.val * 3).toFixed(2)}px` }}
+                                    ></div>
+                                </div>
+                            )}
                             <div className="node-label">{d.label}</div>
-                            <div
-                                className={`node-bar ${d.val > 40 ? 'dense' : ''}`}
-                                style={{ height: `${(d.val * 3).toFixed(2)}px` }}
-                            ></div>
+                            {!d.note && d.val > 0 && (
+                                <div
+                                    className={`node-bar ${d.val > 40 ? 'dense' : ''}`}
+                                    style={{ height: `${(d.val * 3).toFixed(2)}px` }}
+                                ></div>
+                            )}
                         </div>
                     ))}
                 </div>

@@ -107,7 +107,7 @@ main {
   padding-right: 50vw;
 }
 
-/* --- BARS --- */
+/* --- BARS & NOTES --- */
 .node {
   position: relative;
   flex-shrink: 0;
@@ -117,16 +117,70 @@ main {
   transition: width 0.1s linear;
 }
 
-.node-bar {
-  width: 90%;
-  border: 1px solid var(--wire-lit);
-  background: rgba(0, 0, 0, 0.9);
+.node.has-note {
+  z-index: 10;
+}
+
+.note-anchor {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.note-card {
+  position: absolute;
+  bottom: 80px;
+  width: 140px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  transform: translateX(-50%);
+  left: 50%;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  opacity: 0.4;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.node.has-note:hover .note-card {
+  opacity: 1;
+  bottom: 90px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.note-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.note-preview {
+  font-size: 8px;
+  color: var(--wire-mid);
+  font-family: monospace;
+  letter-spacing: 0;
+}
+
+.note-bar {
+  width: 4px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   position: relative;
 }
 
-.node-bar.dense {
-  background: repeating-linear-gradient(45deg, transparent, transparent 2px,
-      rgba(255, 255, 255, 0.15) 2px, rgba(255, 255, 255, 0.15) 4px);
+.node-bar {
+  width: 1px;
+  background: var(--wire-dim);
+  position: relative;
 }
 
 .node-label {
@@ -137,12 +191,12 @@ main {
   text-align: center;
   width: 100%;
   opacity: 0;
-  /* Hidden by default to reduce noise */
 }
 
 .node.major .node-label {
   opacity: 1;
   border-top: 1px solid var(--wire-dim);
+  padding-top: 4px;
 }
 
 /* --- FOOTER COMPLEX --- */
