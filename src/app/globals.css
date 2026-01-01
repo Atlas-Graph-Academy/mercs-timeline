@@ -1,42 +1,213 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg-void: #000000;
+  --wire-dim: rgba(255, 255, 255, 0.15);
+  --wire-mid: rgba(255, 255, 255, 0.4);
+  --wire-lit: #FFFFFF;
+  --font-tech: 'Rajdhani', sans-serif;
+  --accent-glow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
+  user-select: none;
+  scrollbar-width: none;
+}
+
+body {
   margin: 0;
+  padding: 0;
+  background-color: var(--bg-void);
+  color: var(--wire-lit);
+  font-family: var(--font-tech);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* --- BACKGROUND --- */
+.grid-floor {
+  position: fixed;
+  top: 65%;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background-image:
+    linear-gradient(var(--wire-dim) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wire-dim) 1px, transparent 1px);
+  background-size: 80px 80px;
+  transform: perspective(600px) rotateX(70deg);
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* --- SIDE VIGNETTES & HUDS --- */
+.side-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 160px;
+  /* Stop before footer */
+  width: 150px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.side-left {
+  left: 0;
+  background: linear-gradient(to right, #000 0%, transparent 100%);
+}
+
+.side-right {
+  right: 0;
+  background: linear-gradient(to left, #000 0%, transparent 100%);
+}
+
+.side-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--wire-mid);
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+}
+
+/* --- MAIN VIEWPORT --- */
+.viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  z-index: 5;
+  padding-bottom: 180px;
+  /* Lift content up for footer */
+}
+
+.track-container {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  will-change: transform;
+  padding-left: 50vw;
+  padding-right: 50vw;
+}
+
+/* --- BARS --- */
+.node {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  /* transition: width 0.1s linear;  <-- Logic moved to TS likely, or kept here but optimized */
+}
+
+.node-bar {
+  width: 90%;
+  border: 1px solid var(--wire-lit);
+  background: rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+.node-bar.dense {
+  background: repeating-linear-gradient(45deg, transparent, transparent 2px,
+      rgba(255, 255, 255, 0.15) 2px, rgba(255, 255, 255, 0.15) 4px);
+}
+
+.node-label {
+  position: absolute;
+  bottom: -30px;
+  font-size: 10px;
+  color: var(--wire-dim);
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  /* Hidden by default to reduce noise */
+}
+
+.node.major .node-label {
+  opacity: 1;
+  border-top: 1px solid var(--wire-dim);
+}
+
+/* --- FOOTER COMPLEX --- */
+.footer-complex {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(to top, #000 80%, transparent);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 30px;
+}
+
+/* Navigator Track */
+.nav-container {
+  width: 60%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.nav-track-bg {
+  width: 100%;
+  height: 2px;
+  background: var(--wire-dim);
+  position: relative;
+}
+
+.nav-thumb {
+  position: absolute;
+  top: -4px;
+  height: 10px;
+  background: var(--wire-lit);
+  box-shadow: var(--accent-glow);
+  width: 10%;
+  left: 0;
+  border-radius: 2px;
+}
+
+/* PRECISE DATE READOUT */
+.readout-container {
+  text-align: center;
+}
+
+.readout-main {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--wire-lit);
+  text-shadow: var(--accent-glow);
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.readout-sub {
+  font-size: 12px;
+  color: var(--wire-mid);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+}
+
+/* Center Line Indicator on Viewport */
+.center-line {
+  position: fixed;
+  left: 50%;
+  bottom: 160px;
+  top: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--wire-dim) 80%, transparent);
+  z-index: 10;
+  pointer-events: none;
 }
