@@ -57,8 +57,15 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
 
         // 2. Clamp Scroll
         const maxScroll = s.totalW - s.viewW;
-        if (s.scrollX < 0) s.scrollX = 0;
-        if (s.scrollX > maxScroll) s.scrollX = maxScroll;
+
+        if (s.totalW < s.viewW) {
+            // If zoomed out, center the timeline
+            s.scrollX = s.totalW / 2;
+        } else {
+            // Standard clamping
+            if (s.scrollX < 0) s.scrollX = 0;
+            if (s.scrollX > maxScroll) s.scrollX = maxScroll;
+        }
 
         // 3. Move Track
         trackRef.current.style.transform = `translateX(${-s.scrollX}px)`;
@@ -192,7 +199,7 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
                             <div className="node-label">{d.label}</div>
                             <div
                                 className={`node-bar ${d.val > 40 ? 'dense' : ''}`}
-                                style={{ height: `${d.val * 3}px` }}
+                                style={{ height: `${(d.val * 3).toFixed(2)}px` }}
                             ></div>
                         </div>
                     ))}
