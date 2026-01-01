@@ -34,7 +34,7 @@ export function generateTimelineData(): TimelineNode[] {
             const m = dateCursor.getMonth();
             const d = dateCursor.getDate();
             const isMajor = d === 1 && s === 0;
-            const label = isMajor ? MONTHS[m] : `${d}`;
+            const label = isMajor ? String(m + 1).padStart(2, '0') : `${d}`;
 
             data.push({
                 y: 2025,

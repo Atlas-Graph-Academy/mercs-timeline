@@ -52,34 +52,38 @@ main {
   position: absolute;
   top: 0;
   bottom: 160px;
-  /* Stop before footer */
-  width: 150px;
+  width: 120px;
   z-index: 20;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
   pointer-events: none;
 }
 
 .side-left {
   left: 0;
-  background: linear-gradient(to right, #000 0%, transparent 100%);
+  justify-content: flex-start;
+  padding-left: 20px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
 }
 
 .side-right {
   right: 0;
-  background: linear-gradient(to left, #000 0%, transparent 100%);
+  justify-content: flex-end;
+  padding-right: 20px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.8), transparent);
 }
 
 .side-label {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: var(--wire-mid);
-  font-weight: 500;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+  font-size: 5vw;
+  font-weight: 800;
+  letter-spacing: -3px;
+  color: #fff;
+  opacity: 0.15;
+  font-family: 'Inter', sans-serif;
 }
 
 /* --- MAIN VIEWPORT --- */

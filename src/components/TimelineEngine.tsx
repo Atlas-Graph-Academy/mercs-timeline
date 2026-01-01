@@ -80,8 +80,8 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
         const rData = getD(rightIdx);
 
         if (cData && datesRefs.current.main.current && datesRefs.current.sub.current) {
-            datesRefs.current.main.current.innerText = `2025 ${MONTHS[cData.m]} ${String(cData.d).padStart(2, '0')}`;
-            datesRefs.current.sub.current.innerText = `${SLOT_HOURS[cData.slot]} // ${SLOT_NAMES[cData.slot]}`;
+            datesRefs.current.main.current.innerText = `${cData.y} ${String(cData.m + 1).padStart(2, '0')} ${String(cData.d).padStart(2, '0')}`;
+            datesRefs.current.sub.current.innerText = `${SLOT_HOURS[cData.slot]} . ${cData.slot}`;
 
             // Callback for parent - throttled by ID change
             if (onDateChange && cData.id !== lastEmittedId.current) {
@@ -91,11 +91,11 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
         }
 
         if (lData && datesRefs.current.left.current) {
-            datesRefs.current.left.current.innerText = `L // ${MONTHS[lData.m]} ${String(lData.d).padStart(2, '0')} // ${SLOT_HOURS[lData.slot]}`;
+            datesRefs.current.left.current.innerText = `${String(lData.m + 1).padStart(2, '0')}.${String(lData.d).padStart(2, '0')}`;
         }
 
         if (rData && datesRefs.current.right.current) {
-            datesRefs.current.right.current.innerText = `R // ${MONTHS[rData.m]} ${String(rData.d).padStart(2, '0')} // ${SLOT_HOURS[rData.slot]}`;
+            datesRefs.current.right.current.innerText = `${String(rData.m + 1).padStart(2, '0')}.${String(rData.d).padStart(2, '0')}`;
         }
 
         // Nav Thumb
