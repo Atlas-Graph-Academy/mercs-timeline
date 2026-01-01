@@ -11,10 +11,11 @@ interface TimelineState {
 }
 
 interface TimelineEngineProps {
+    activeNode?: TimelineNode | null;
     onDateChange?: (node: TimelineNode) => void;
 }
 
-export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
+export default function TimelineEngine({ activeNode, onDateChange }: TimelineEngineProps) {
     const [data] = useState(() => generateTimelineData());
 
     // Refs for DOM manipulation
@@ -174,6 +175,22 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
         };
     }, [data]); // Deps array: run once on mount (and if data changes)
 
+    // Sync Timeline when activeNode changes externally (from ReadingPanel scroll)
+    useEffect(() => {
+        if (activeNode) {
+            const s = state.current;
+            const targetScrollX = (activeNode.id * s.zoom) - (s.viewW / 2) + (s.zoom / 2);
+
+            // Check if it's already centered enough to avoid jitter
+            const currentCenterIdx = Math.floor((s.scrollX + s.viewW / 2) / s.zoom);
+            if (currentCenterIdx !== activeNode.id) {
+                // Update internal state and trigger re-render
+                state.current.scrollX = targetScrollX;
+                updateEngine();
+            }
+        }
+    }, [activeNode]);
+
     return (
         <>
             <div className="grid-floor"></div>
@@ -195,7 +212,7 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
                     {data.map((d) => (
                         <div
                             key={d.id}
-                            className={`node ${d.isMajor ? 'major' : ''} ${d.note ? 'has-note' : ''}`}
+                            className={`node ${d.isMajor ? 'major' : ''} ${d.note ? 'has-note' : ''} ${activeNode?.id === d.id ? 'active' : ''}`}
                             style={{ width: 'var(--node-width, 4px)', height: '100%' } as React.CSSProperties}
                         >
                             {d.note && (

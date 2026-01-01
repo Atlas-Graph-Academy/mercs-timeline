@@ -12,6 +12,7 @@ export interface TimelineNode {
     note?: {
         title: string;
         contentLength: number;
+        content: string;
     };
 }
 
@@ -24,7 +25,7 @@ export function generateTimelineData(): TimelineNode[] {
     const SLOTS_PER_DAY = 4;
 
     let data: TimelineNode[] = [];
-    let dateCursor = new Date(2025, 0, 1);
+    let dateCursor = new Date(2024, 11, 20); // Dec 20, 2024
 
     // Map notes to keys for quick lookup: "YYYY-MM-DD-Slot"
     const noteMap: Record<string, typeof NOTES_DATA[0]> = {};
@@ -69,7 +70,7 @@ export function generateTimelineData(): TimelineNode[] {
                 id: i * SLOTS_PER_DAY + s,
                 isMajor,
                 label,
-                note: note ? { title: note.title, contentLength: note.contentLength } : undefined
+                note: note ? { title: note.title, contentLength: note.contentLength, content: note.content } : undefined
             });
         }
         dateCursor.setDate(dateCursor.getDate() + 1);

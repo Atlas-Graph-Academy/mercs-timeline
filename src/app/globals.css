@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Outfit:wght@300;600;800&family=Rajdhani:wght@400;700&display=swap');
+
 :root {
   --bg-void: #000000;
   --wire-dim: rgba(255, 255, 255, 0.15);
@@ -83,7 +85,7 @@ main {
   letter-spacing: -3px;
   color: #fff;
   opacity: 0.15;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 
 /* --- MAIN VIEWPORT --- */
@@ -143,6 +145,17 @@ main {
   opacity: 0.4;
   pointer-events: auto;
   cursor: pointer;
+  filter: blur(2px);
+}
+
+.node.active .note-card {
+  opacity: 1;
+  bottom: 90px;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  transform: translateX(-50%) scale(1.05);
+  filter: blur(0);
 }
 
 .node.has-note:hover .note-card {
@@ -181,6 +194,15 @@ main {
   width: 1px;
   background: var(--wire-dim);
   position: relative;
+  transition: all 0.3s ease;
+}
+
+.node.active .note-bar,
+.node.active .node-bar {
+  background: #fff;
+  width: 6px;
+  box-shadow: 0 0 20px #fff, 0 0 40px rgba(255, 255, 255, 0.4);
+  z-index: 100;
 }
 
 .node-label {
