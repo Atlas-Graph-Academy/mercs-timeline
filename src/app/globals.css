@@ -21,14 +21,19 @@ body {
   font-family: var(--font-tech);
   height: 100vh;
   overflow: hidden;
+}
+
+main {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  width: 100%;
 }
 
 /* --- BACKGROUND --- */
 .grid-floor {
   position: fixed;
-  top: 65%;
+  top: 40%;
   left: -50%;
   width: 200%;
   height: 100%;
@@ -105,7 +110,7 @@ body {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  /* transition: width 0.1s linear;  <-- Logic moved to TS likely, or kept here but optimized */
+  transition: width 0.1s linear;
 }
 
 .node-bar {

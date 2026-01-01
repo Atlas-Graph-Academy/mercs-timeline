@@ -22,8 +22,12 @@ export function generateTimelineData(): TimelineNode[] {
 
     for (let i = 0; i < TOTAL_DAYS; i++) {
         for (let s = 0; s < SLOTS_PER_DAY; s++) {
-            // Procedural generation
-            let val = Math.random() * 20 + 5;
+            // Use deterministic procedural generation to fix hydration mismatch
+            // Instead of Math.random(), we use a formula based on the current index
+            const id = i * SLOTS_PER_DAY + s;
+            const seed = Math.abs(Math.sin(id));
+            let val = seed * 20 + 5;
+
             if (i % 7 === 0) val += 30; // Spikes on weekends
             if (i > 200 && i < 250) val += 20; // Summer burst
 

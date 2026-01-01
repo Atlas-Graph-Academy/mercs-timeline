@@ -187,7 +187,7 @@ export default function TimelineEngine({ onDateChange }: TimelineEngineProps) {
                         <div
                             key={d.id}
                             className={`node ${d.isMajor ? 'major' : ''}`}
-                            style={{ width: 'var(--node-width, 4px)' } as React.CSSProperties}
+                            style={{ width: 'var(--node-width, 4px)', height: '100%' } as React.CSSProperties}
                         >
                             <div className="node-label">{d.label}</div>
                             <div
